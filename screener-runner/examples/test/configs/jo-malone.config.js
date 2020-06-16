@@ -25,6 +25,20 @@ module.exports = {
                 .wait(4000)
                 .snapshot('Loaded')
                 .end()
+        },
+        {
+            //This page has dynamic elements that only appear when they are scrolled into view
+            //so we run a script to preload those elements
+            url: 'https://wwwtmp.jomalone.co.uk/scents/light-floral/red-roses',
+            name: 'Validate shopping cart component',
+            steps: new Steps()
+                .wait("button.accept-cookies-button")
+                .click("button.accept-cookies-button")
+                .executeScript("document.querySelectorAll(\"button.elc-product-quick-view-button\")[1].click()")
+                .click(".elc-add-to-bag-button")
+                .wait('.gnav-util-cart__content.js-gnav-util-cart-content:not(.hidden)')
+                .snapshot('bag component', {cropTo: '.gnav-util-cart__content.js-gnav-util-cart-content'})
+                .end()
         }
     ],
     //What are all of the browsers that we want to test against
